@@ -1,0 +1,16 @@
+---
+- name: Erweitere apt-Konfiguration um Proxy-Eintrag
+  template:
+    src: "01proxy.j2"
+    dest: "/etc/apt/apt.conf.d/01proxy"
+    mode: '0644'
+  become: yes
+  when:
+    - use_apt_proxy
+    
+- name: Entferne /etc/apt/apt.conf.d/01proxy
+  file:
+    path: "/etc/apt/apt.conf.d/01proxy"
+    state: absent
+  become: yes
+  when: not use_proxy
