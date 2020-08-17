@@ -1,1 +1,2 @@
 ---
+use_apt_proxy: false
