@@ -6,11 +6,18 @@
     mode: '0644'
   become: yes
   when:
-    - use_apt_proxy
+    - apt_proxy.use_apt_proxy
+    - apt_proxy_check is defined
     
 - name: Entferne /etc/apt/apt.conf.d/01proxy
   file:
     path: "/etc/apt/apt.conf.d/01proxy"
     state: absent
   become: yes
-  when: not use_proxy
+  when:
+    - not apt_proxy.use_apt_proxy
+    - apt_proxy_check is defined
+
+- name: register apt-proxy-run
+  ansible.builtin.set_fact: 
+    apt_proxy_check: true
